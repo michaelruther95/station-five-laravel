@@ -25,6 +25,8 @@ class MessageController extends Controller
             'response' => null
         ];
 
+        $responseCode = 200;
+
         for ($counter = 0; $counter < count($this->keywordsSets); $counter++) {
             $currentSet = $this->keywordsSets[$counter];
 
@@ -42,10 +44,12 @@ class MessageController extends Controller
             }
         }
 
-        if (!$responseData['response'])
+        if (!$responseData['response']) {
             $responseData['response'] = "Sorry, I don't understand.";
+            $responseCode = 422;
+        }
 
-        return response()->json($responseData);
+        return response()->json($responseData, $responseCode);
 
     }
 
